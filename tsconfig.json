@@ -27,5 +27,9 @@
     "include": [
         "src",
         "wdio.conf.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
     ]
 }
