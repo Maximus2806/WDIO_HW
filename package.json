@@ -21,6 +21,7 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --config .prettierrc src/**/*.ts --check",
     "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write",
-    "prepare": "husky"
+    "prepare": "husky",
+    "wdio": "wdio run ./wdio.conf.ts"
   }
 }

@@ -9,7 +9,7 @@ export const config: Options.Testrunner = {
   autoCompileOpts: {
     autoCompile: true,
     tsNodeOpts: {
-      project: './tsconfig.json',
+      project: './tsconfig.e2e.json',
       transpileOnly: true
     }
   },
@@ -31,7 +31,8 @@ export const config: Options.Testrunner = {
   //
   specs: [
     // ToDo: define location for spec files here
-    'src/ui/tests/**/*.test.ts'
+    'src/ui/tests/register.spec.ts',
+    'src/ui/tests/login.spec.ts'
   ],
   // Patterns to exclude.
   exclude: [
@@ -61,7 +62,10 @@ export const config: Options.Testrunner = {
   //
   capabilities: [
     {
-      browserName: 'chrome'
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        args: ['--disable-search-engine-choice-screen']
+      }
     }
   ],
 
