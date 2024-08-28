@@ -3,3 +3,4 @@ allure-results
 allure-report
 auth.test.ts
 dropdown.test.ts
+.env

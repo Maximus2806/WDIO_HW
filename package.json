@@ -23,5 +23,11 @@
     "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write",
     "prepare": "husky",
     "wdio": "wdio run ./wdio.conf.ts"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.17.7",
+    "D": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "lodash": "^4.17.21"
   }
 }
