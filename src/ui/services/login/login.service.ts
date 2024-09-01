@@ -1,10 +1,6 @@
 import { ICreds } from '../../../data/types/user.types.js';
 import { LoginForm } from '../../pages/signIn/login.page.js';
-
-const adminCreds: ICreds = {
-  email: `${process.env.ADMIN_USER_NAME}`,
-  password: `${process.env.ADMIN_PASSWORD}`
-};
+import { adminCreds } from '../../../data/auth/adminCreds.js';
 
 export class LoginService {
   private loginForm: LoginForm;
@@ -21,5 +17,9 @@ export class LoginService {
   async loginAsAdmin() {
     await this.loginForm.fillInputs(adminCreds);
     await this.loginForm.submitForm();
+  }
+
+  async openSalesPortal() {
+    await this.loginForm.openPage(`${process.env.BASE_URL}`);
   }
 }

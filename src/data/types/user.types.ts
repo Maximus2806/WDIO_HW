@@ -1,4 +1,4 @@
 export interface ICreds {
-  email: string;
+  username: string;
   password: string;
 }

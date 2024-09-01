@@ -50,4 +50,7 @@ export abstract class BasePage {
     const element = await this.waitForElement(dropdownLocator, timeout);
     await element.selectByVisibleText(value);
   }
+  async openPage(url: string) {
+    await browser.url(url);
+  }
 }

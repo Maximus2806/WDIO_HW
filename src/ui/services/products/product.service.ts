@@ -1,3 +1,4 @@
+import { DeleteModalWindowPage } from '../../pages/modals/deleteModal.page.js';
 import { ModalWindowPage } from '../../pages/modals/detailsModal.page.js';
 import { AddNewProductPage } from '../../pages/products/addNewProduct.page.js';
 import { ProductsPage } from '../../pages/products/products.page.js';
@@ -7,7 +8,8 @@ export class ProductsListService {
   constructor(
     private productsPage = new ProductsPage(),
     private addNewProductPage = new AddNewProductPage(),
-    private modalWindowPage = new ModalWindowPage()
+    private modalWindowPage = new ModalWindowPage(),
+    private deleteModalWindowPage = new DeleteModalWindowPage()
   ) {}
 
   async openAddNewProductPage() {
@@ -21,33 +23,25 @@ export class ProductsListService {
     return createdProductData;
   }
 
-  private async openCreatedProductDetails(productName: string) {
+  private async openDetails(productName: string) {
     await this.productsPage.clickOnDetailsButton(productName);
-  }
-
-  private async closeCreatedProductDetails() {
-    await this.modalWindowPage.closeByCross();
-  }
+  }  
 
   async getCreatedProductDetails(productName: string) {
-    await this.openCreatedProductDetails(productName);
+    await this.openDetails(productName);
     const productData = await this.modalWindowPage.getProductData();
-    await this.closeCreatedProductDetails();
+    await this.modalWindowPage.closeByCross();
     return productData;
   }
 
-  async getNotification() {
-    await this.productsPage.waitForToastMessage();
+  async getNotificationAndClose() {    
     const notification = await this.productsPage.getToastMessage();
-    return notification;
-  }
-
-  async closeNotification() {
     await this.productsPage.closeToastMessage();
+    return notification;
   }
 
   async deleteCreatedProduct(productName: string) {
     await this.productsPage.clickOnDeleteButton(productName);
-    await this.modalWindowPage.submit()
+    await this.deleteModalWindowPage.submitDelete();
   }
 }

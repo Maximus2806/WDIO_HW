@@ -5,41 +5,38 @@ import { HomeService } from '../../services/home/home.service.js';
 import { AddProductService } from '../../services/products/addNewProduct.service.js';
 import { TOAST_MESSAGE } from '../../../data/types/toastMessage.types.js';
 import _ from 'lodash';
+import { SalesPortalPage } from '../../pages/salesPortal.page.js';
+import { SalesPortalService } from '../../services/salesPortal.service.js';
+import { ProductsPage } from '../../pages/products/products.page.js';
 
 describe('[UI] [Product] Smoke Login - Create -Verify - Delete', () => {
   const loginService = new LoginService();
   const homeService = new HomeService();
   const productsService = new ProductsListService();
   const addProductService = new AddProductService();
+  const productsPage = new ProductsPage();
+  const salesPortalService = new SalesPortalService(productsPage);
 
   before(async () => {
     await browser.maximizeWindow();
   });
   beforeEach(async () => {
-    await browser.url(`${process.env.BASE_URL}`);
+    await loginService.openSalesPortal();
     await loginService.loginAsAdmin();
     await homeService.openProductsPage();
-    await productsService.openAddNewProductPage();    
+    await productsService.openAddNewProductPage();
   });
 
   it('Test', async () => {
     const product = generateNewProduct();
     await addProductService.create(product);
-    const actualCreateNotification = await productsService.getNotification();
-    const expectedCreateNotification = TOAST_MESSAGE.CREATE_SUCCESS;
-    expect(actualCreateNotification).toBe(expectedCreateNotification);
-    await productsService.closeNotification();
+    await salesPortalService.verifyNotification(TOAST_MESSAGE.CREATE_SUCCESS);    
     const actualCreatedProductDataFromModal = await productsService.getCreatedProductDetails(product.name);
     const actualCreatedProductData = await productsService.getCreatedProductData(product.name);
     expect(actualCreatedProductData).toMatchObject(
       _.omit(actualCreatedProductDataFromModal, ['amount', 'createdOn', 'notes'])
     );
     await productsService.deleteCreatedProduct(product.name);
-    const actualDeleteNotification = await productsService.getNotification();
-    const expectedDeleteNotification = TOAST_MESSAGE.DELETE_SUCCESS;
-    expect(actualDeleteNotification).toBe(expectedDeleteNotification);   
-    await productsService.closeNotification();
+    await salesPortalService.verifyNotification(TOAST_MESSAGE.DELETE_SUCCESS);    
   });
 });
-
-

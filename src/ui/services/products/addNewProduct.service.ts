@@ -22,5 +22,6 @@ export class AddProductService {
     await this.save();
     await this.addNewProductPage.waitForSpinnerToHide();
     await this.productsPage.waitForOpened();
+    // await this.salesPortalService.verifyToastMessage()
   }
 }
