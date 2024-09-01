@@ -27,13 +27,4 @@ export class ProductsPage extends SalesPortalPage {
   async clickOnDeleteButton(name: string) {
     await this.click(this['Delete button'](name));
   }
-//to be removed after implementing salesPortalService
-//   async getToastMessage() {
-//     const toastMessage = await this.getText(this.toast);
-//     return toastMessage;
-//   }
-
-//   async closeToastMessage() {
-//     await this.click(this['Close toast message']);
-//   }
 }

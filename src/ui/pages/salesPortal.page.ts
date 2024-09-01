@@ -13,8 +13,7 @@ export abstract class SalesPortalPage extends BasePage {
 
   async waitForSpinnerToHide() {
     await this.waitForElement(this.spinner, 10000, true);
-  }
-  //Trying to rework toast verification(now doublicates methods from product page)
+  } 
 
   async getToastMessage() {
     const toastMessage = await this.getText(this.toast);

@@ -5,7 +5,6 @@ import { HomeService } from '../../services/home/home.service.js';
 import { AddProductService } from '../../services/products/addNewProduct.service.js';
 import { TOAST_MESSAGE } from '../../../data/types/toastMessage.types.js';
 import _ from 'lodash';
-import { SalesPortalPage } from '../../pages/salesPortal.page.js';
 import { SalesPortalService } from '../../services/salesPortal.service.js';
 import { ProductsPage } from '../../pages/products/products.page.js';
 
