@@ -1,4 +1,7 @@
 import type { Options } from '@wdio/types';
+import * as dotenv from 'dotenv';
+import { rimraf } from 'rimraf';
+dotenv.config();
 export const config: Options.Testrunner = {
   //
   // ====================
@@ -35,8 +38,14 @@ export const config: Options.Testrunner = {
     // 'src/ui/tests/login.test.ts',
     // 'src/ui/tests/dynamicLoading.test.ts',
     // 'src/ui/tests/checkSpinnerAndBackgroundColor.test.ts'
-    'src/ui/tests/products/smoke.test.ts'
+    // 'src/ui/tests/products/smoke.test.ts',
+    'src/**/*.test.ts'
   ],
+  suites: {
+    ui: ['src/ui/tests/**/*.test.ts'],
+    ui_products: ['src/ui/tests/products/**/*.test.ts'],
+    ui_simple: ['src/ui/tests/simple/**/*.test.ts']
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -142,7 +151,18 @@ export const config: Options.Testrunner = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec', ['allure', { outputDir: 'allure-results' }]],
+  reporters: [
+    'spec',
+    [
+      'allure',
+      {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+        disableMochaHooks: false
+      }
+    ]
+  ],
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
@@ -164,8 +184,9 @@ export const config: Options.Testrunner = {
    * @param {object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: function (config, capabilities) {
+    rimraf.sync('./allure-results')
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialize specific service
    * for that worker as well as modify runtime environments in an async fashion.

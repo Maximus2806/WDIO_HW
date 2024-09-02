@@ -26,16 +26,22 @@ describe('[UI] [Product] Smoke Login - Create -Verify - Delete', () => {
     await productsService.openAddNewProductPage();
   });
 
+  afterEach(async () => {
+    await loginService.signOut()
+  })
+
   it('Test', async () => {
     const product = generateNewProduct();
     await addProductService.create(product);
-    await salesPortalService.verifyNotification(TOAST_MESSAGE.CREATE_SUCCESS);    
-    const actualCreatedProductDataFromModal = await productsService.getCreatedProductDetails(product.name);
-    const actualCreatedProductData = await productsService.getCreatedProductData(product.name);
-    expect(actualCreatedProductData).toMatchObject(
-      _.omit(actualCreatedProductDataFromModal, ['amount', 'createdOn', 'notes'])
-    );
+    await salesPortalService.verifyNotification(TOAST_MESSAGE.CREATE_SUCCESS);
+    // const actualCreatedProductDataFromModal = await productsService.getCreatedProductDetails(product.name);
+    // const actualCreatedProductData = await productsService.getCreatedProductData(product.name);
+    // expect(actualCreatedProductData).toMatchObject(
+    //   _.omit(actualCreatedProductDataFromModal, ['amount', 'createdOn', 'notes'])
+    // );
+    //Replaced with new method from productService
+    await productsService.checkProductByModalData(product);
     await productsService.deleteCreatedProduct(product.name);
-    await salesPortalService.verifyNotification(TOAST_MESSAGE.DELETE_SUCCESS);    
+    await salesPortalService.verifyNotification(TOAST_MESSAGE.DELETE_SUCCESS);
   });
 });

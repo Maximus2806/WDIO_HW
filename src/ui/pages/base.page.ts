@@ -1,3 +1,5 @@
+import { logAction } from "../../utils/report/decorator.js";
+
 const TIMEOUT_5_SECS = 5000;
 
 export abstract class BasePage {
@@ -23,11 +25,13 @@ export abstract class BasePage {
     return element;
   }
 
+  @logAction('Click on element with selector {selector}')
   protected async click(locator: string | WebdriverIO.Element, timeout = TIMEOUT_5_SECS): Promise<void> {
     const element = await this.waitForElement(locator, timeout);
     await element.click();
   }
 
+  @logAction('Set {text} into element with selector {selector}')
   async setValue(
     locator: string | WebdriverIO.Element,
     value: string | number,
@@ -42,6 +46,7 @@ export abstract class BasePage {
     return await element.getText();
   }
 
+  @logAction('Select dropdown value from {selector}')
   async selectDropdownValue(
     dropdownLocator: string | WebdriverIO.Element,
     value: string | number,
@@ -50,7 +55,13 @@ export abstract class BasePage {
     const element = await this.waitForElement(dropdownLocator, timeout);
     await element.selectByVisibleText(value);
   }
+
+  @logAction('Open URL {selector}')
   async openPage(url: string) {
     await browser.url(url);
+  }
+
+  async deleteCookies(cookieName: string[]) {
+    await browser.deleteCookies(cookieName);
   }
 }
