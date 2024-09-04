@@ -2,6 +2,8 @@
   "name": "wdio-template",
   "type": "module",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/rimraf": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
     "@wdio/allure-reporter": "^8.39.0",
@@ -9,6 +11,7 @@
     "@wdio/local-runner": "^8.39.1",
     "@wdio/mocha-framework": "^8.39.0",
     "@wdio/spec-reporter": "^8.39.0",
+    "allure-commandline": "^2.30.0",
     "eslint": "^8.57.0",
     "husky": "^9.1.1",
     "prettier": "^3.3.3",
@@ -17,17 +20,22 @@
   },
   "scripts": {
     "test": "wdio run ./wdio.conf.ts",
+    "test:ui": "npm run test -- --suite ui",
+    "test:ui-products": "npm run test -- --suite ui_products",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --config .prettierrc src/**/*.ts --check",
     "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write",
     "prepare": "husky",
-    "wdio": "wdio run ./wdio.conf.ts"
+    "wdio": "wdio run ./wdio.conf.ts",
+    "report": "allure generate allure-results -o allure-report --clean",
+    "report-open": "npm run report && allure open allure-report"
   },
   "dependencies": {
     "@types/lodash": "^4.17.7",
     "D": "^1.0.0",
     "dotenv": "^16.4.5",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "rimraf": "^6.0.1"
   }
 }

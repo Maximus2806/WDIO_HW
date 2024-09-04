@@ -8,7 +8,7 @@ export class LoginForm extends SalesPortalPage {
   private readonly 'Login button' = "button[type = 'submit']";
 
   async fillInputs(credentials: Partial<ICreds>) {
-    credentials.email && (await $(this['User name input']).setValue(credentials.email));
+    credentials.username && (await $(this['User name input']).setValue(credentials.username));
     credentials.password && (await $(this['Password input']).setValue(credentials.password));
   }
 

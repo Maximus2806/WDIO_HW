@@ -2,11 +2,7 @@ import { SalesPortalPage } from '../salesPortal.page.js';
 
 export class ProductsPage extends SalesPortalPage {
   readonly uniqueElement = '//h2[.="Products List "]';
-  // private readonly 'Name by table row' = (product: string) => `${this['Table row selector'](product)}/td[1]`;
-  private readonly 'Add New Product button' = 'button.page-title-header';
-  private readonly 'Close toast message' = '.d-flex button[title="Close"]';
   private readonly 'Table row selector' = (product: string) => `//tr[./td[text()="${product}"]]`;
-
   private readonly 'Price by table row' = (product: string) => `${this['Table row selector'](product)}/td[2]`;
   private readonly 'Manufacturer by table row' = (product: string) => `${this['Table row selector'](product)}/td[3]`;
   private readonly 'Details button' = (product: string) => `${this['Table row selector'](product)}/td[5]/button[1]`;
@@ -30,14 +26,5 @@ export class ProductsPage extends SalesPortalPage {
 
   async clickOnDeleteButton(name: string) {
     await this.click(this['Delete button'](name));
-  }
-
-  async getToastMessage() {
-    const toastMessage = await this.getText(this.toast);
-    return toastMessage;
-  }
-
-  async closeToastMessage() {
-    await this.click(this['Close toast message']);
   }
 }

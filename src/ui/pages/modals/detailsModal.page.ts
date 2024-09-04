@@ -1,46 +1,34 @@
-import { BasePage } from '../base.page.js';
+import { BaseModalPage } from '../baseModal.page.js';
 
-export class ModalWindowPage extends BasePage {
-  private readonly 'Submit button' = '//div[@class="modal-footer"]//button[1]';
-  private readonly 'Cancel button' = '//div[@class="modal-footer"]//button[2]';
-  private readonly 'Cross button' = '//div[@class="modal-header"]/button';
-  private readonly 'Name' = '.modal-body section > div:nth-child(1) > div';
-  private readonly 'Amount' = '.modal-body section > div:nth-child(2) > div';
-  private readonly 'Price' = '.modal-body section > div:nth-child(3) > div';
-  private readonly 'Manufacturer' = '.modal-body section > div:nth-child(4) > div';
-  private readonly 'Created On' = '.modal-body section > div:nth-child(5) > div';
-  private readonly 'Notes' = '.modal-body section > div:nth-child(6) > div';
+export class ModalWindowPage extends BaseModalPage {
+  private readonly 'Row value by row name' = (row: string) =>
+    `//div[@class="modal-body"]//div[strong[text()="${row}:"]]/div`;
 
   async clickEditButton() {
-    await this.click(this['Submit button']);
+    await this.clickSubmit();
   }
 
   async closeByCancel() {
-    await this.click(this['Cancel button']);
+    await this.clickCancel();
   }
 
   async closeByCross() {
-    await this.click(this['Cross button']);
+    await this.clickCross();
   }
 
   async submit() {
-    await this.click(this['Submit button']);
+    await this.clickSubmit();
   }
 
   async getProductData() {
     const [name, amount, price, manufacturer, createdOn, notes] = await Promise.all([
-      this.getText(this['Name']),
-      this.getText(this['Amount']),
-      this.getText(this['Price']),
-      this.getText(this['Manufacturer']),
-      this.getText(this['Created On']),
-      this.getText(this['Notes'])
+      this.getText(this['Row value by row name']('Name')),
+      this.getText(this['Row value by row name']('Amount')),
+      this.getText(this['Row value by row name']('Price')),
+      this.getText(this['Row value by row name']('Manufacturer')),
+      this.getText(this['Row value by row name']('Created On')),
+      this.getText(this['Row value by row name']('Notes'))
     ]);
-    const textDataFromModal = { name, amount, price, manufacturer, createdOn, notes };
-    const dataFromModal = {
-      ...textDataFromModal,
-      price: +textDataFromModal.price
-    };
-    return dataFromModal;
+    return { name, amount, price: +price, manufacturer, createdOn, notes };
   }
 }
